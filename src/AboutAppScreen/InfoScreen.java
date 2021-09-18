@@ -13,7 +13,6 @@ public class InfoScreen extends JFrame {
     }
 
 
-
     private void defOptions(JFrame jf) {
         setTitle("About Application");
         jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

@@ -32,6 +32,7 @@ public class Handler implements ActionListener {
             frame.dispose();
             v.getIcon().resume();
             v.getIcon().interrupt();
+            infoScreen.dispose();
             Thread.currentThread().interrupt();
 
         } else if (suitable) {
