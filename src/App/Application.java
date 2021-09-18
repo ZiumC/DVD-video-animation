@@ -33,8 +33,8 @@ public class Application extends JFrame {
 
                 try {
                     Thread.sleep(sleepTime);
-                } catch (Exception var5) {
-                    var5.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

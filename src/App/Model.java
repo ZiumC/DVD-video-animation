@@ -32,7 +32,9 @@ public class Model {
     public void readSound() {
         try {
             clip = AudioSystem.getClip();
-            input = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream(sound_fileName)));
+            input = AudioSystem.getAudioInputStream(Objects.requireNonNull(this.getClass().getResourceAsStream(sound_fileName)));
+            clip.open(input);
+
         } catch (Exception e) {
             e.printStackTrace();
             properMusicRead = false;
@@ -40,15 +42,10 @@ public class Model {
 
     }
 
-    public void resetAudio() {
-        try {
-            clip.close();
-            input = AudioSystem.getAudioInputStream(Objects.requireNonNull(getClass().getResourceAsStream(sound_fileName)));
-            clip.open(input);
-        } catch (Exception e) {
-            e.printStackTrace();
-            properMusicRead = false;
-        }
+    public void playAudio() {
+
+        clip.setFramePosition(0);
+        clip.start();
 
     }
 
@@ -57,7 +54,7 @@ public class Model {
         arrayOfImageIndexes = new int[arrayOfImages.length];
 
         try {
-            for(int i = 0; i < arrayOfImages.length; ++i) {
+            for (int i = 0; i < arrayOfImages.length; ++i) {
                 String images_fileNames = i + 1 + ".png";
                 arrayOfImageIndexes[i] = i;
                 arrayOfImages[i] = ImageIO.read(Objects.requireNonNull(getClass().getResource(images_fileNames)));
@@ -78,7 +75,7 @@ public class Model {
             try {
 
                 Scanner sc = new Scanner(cache);
-                while (sc.hasNextLine()){
+                while (sc.hasNextLine()) {
                     raw_Data = sc.nextLine();
                 }
 
@@ -104,9 +101,6 @@ public class Model {
 
     }
 
-    public Clip getClip() {
-        return clip;
-    }
 
     public boolean isProperMusicRead() {
         return properMusicRead;
