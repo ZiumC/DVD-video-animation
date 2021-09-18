@@ -1,6 +1,8 @@
 package App;
 
 
+import AboutAppScreen.InfoScreen;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
@@ -10,6 +12,7 @@ import javax.swing.JFrame;
 public class Handler implements ActionListener {
     private JFrame frame;
     private View v;
+    private int i = 0;
 
     Handler(JFrame f, View v) {
         frame = f;
@@ -17,6 +20,7 @@ public class Handler implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent event) {
+
         String source = event.getActionCommand();
 
         Pattern patternForSpeedMenu = Pattern.compile("S");
@@ -35,7 +39,7 @@ public class Handler implements ActionListener {
             v.getIcon().setBasicSpeedThread(Integer.parseInt(data[1]));
 
         } else if (source.equals("P")) {
-
+            i = 0;
             v.getIcon().pause();
 
         } else if (source.equals("R")) {
@@ -45,6 +49,17 @@ public class Handler implements ActionListener {
         } else if (source.equals("Demo")) {
 
             v.getIcon().setDemoPosition(240, 240, -v.getAnimationSpeed());
+
+        } else if (source.equals("About")) {
+            InfoScreen infoScreen =  new InfoScreen();
+
+            if (i == 0){
+                infoScreen.displayInfo();
+            }
+
+            i++;
+
+            i = infoScreen.getB();
 
         } else {
             int indexOfColor = Integer.parseInt(source);

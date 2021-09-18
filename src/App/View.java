@@ -50,14 +50,14 @@ public class View extends JPanel {
         JMenu options = new JMenu("Options");
         options.setMnemonic('O');
 
-        JMenu help = new JMenu("Help");
-        help.setMnemonic('H');
+        JMenu file = new JMenu("File");
+        file.setMnemonic('F');
 
         exit = new JMenuItem("Exit");
         exit.setAccelerator(KeyStroke.getKeyStroke("ctrl shift X"));
         exit.setMnemonic('X');
 
-        menuBar.add(help);
+        menuBar.add(file);
         menuBar.add(options);
 
         options.add(initializeMenuBG());
@@ -65,7 +65,17 @@ public class View extends JPanel {
         options.add(initializeManipulationMenu());
         options.add(exit);
 
-        help.add(initializeDemoMenu());
+        file.add(initializeDemoMenu());
+        file.add(initializeInfo());
+    }
+
+    private JMenuItem initializeInfo(){
+        JMenuItem mAbout = new JMenuItem("About app");
+
+        mAbout.addActionListener(handler_MenuButtons);
+        mAbout.setActionCommand("About");
+
+        return mAbout;
     }
 
     private JMenuItem initializeDemoMenu() {
