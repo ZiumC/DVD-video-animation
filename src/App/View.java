@@ -62,10 +62,12 @@ public class View extends JPanel {
 
         options.add(initializeMenuBG());
         options.add(initializeSpeedMenu());
+        options.addSeparator();
         options.add(initializeManipulationMenu());
 
         file.add(initializeDemoMenu());
         file.add(initializeInfo());
+        file.addSeparator();
         file.add(exit);
     }
 
