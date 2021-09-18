@@ -63,10 +63,10 @@ public class View extends JPanel {
         options.add(initializeMenuBG());
         options.add(initializeSpeedMenu());
         options.add(initializeManipulationMenu());
-        options.add(exit);
 
         file.add(initializeDemoMenu());
         file.add(initializeInfo());
+        file.add(exit);
     }
 
     private JMenuItem initializeInfo(){
@@ -83,6 +83,7 @@ public class View extends JPanel {
 
         mDemo.addActionListener(handler_MenuButtons);
         mDemo.setActionCommand("Demo");
+        mDemo.setAccelerator(KeyStroke.getKeyStroke("ctrl D"));
 
         return mDemo;
     }
