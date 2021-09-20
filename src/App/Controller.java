@@ -39,7 +39,7 @@ public class Controller {
 
     public void initializeMusicPlay() {
 
-        if (view.getIcon().isHitedCorner()) {
+        if (view.getIcon().isCornerHitted()) {
             model.playAudio();
         }
 

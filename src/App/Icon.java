@@ -4,7 +4,6 @@ package App;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,7 +21,7 @@ public class Icon extends JPanel implements Runnable {
     private int imageIndex = 0;
     private Thread iconThread;
     private int[] arrayOfImageIndexes;
-    private boolean hitedCorner = false;
+    private boolean hittedCorner = false;
     private boolean paused = false;
     private final Object pause_resume_Lock = new Object();
 
@@ -36,8 +35,8 @@ public class Icon extends JPanel implements Runnable {
         height = parent.getHeight();
         weight = parent.getWidth();
 
-        x = (int)(Math.random() * (height - height / 2));
-        y = (int)(Math.random() * (weight -weight / 2));
+        x = (int) (Math.random() * (height - height / 2));
+        y = (int) (Math.random() * (weight - weight / 2));
 
         iconThread = new Thread(this);
     }
@@ -52,7 +51,7 @@ public class Icon extends JPanel implements Runnable {
 
     public void resume() {
 
-        synchronized(pause_resume_Lock) {
+        synchronized (pause_resume_Lock) {
             paused = false;
             pause_resume_Lock.notifyAll();
         }
@@ -62,10 +61,10 @@ public class Icon extends JPanel implements Runnable {
     private int direction(int speedAnimation) {
 
         boolean direction = Math.random() > 0.5;
-        if (direction){
+        if (direction) {
             return speedAnimation;
-        } else{
-            return speedAnimation *-1;
+        } else {
+            return speedAnimation * -1;
         }
     }
 
@@ -80,8 +79,8 @@ public class Icon extends JPanel implements Runnable {
         return interrupted;
     }
 
-    public boolean isHitedCorner() {
-        return hitedCorner;
+    public boolean isCornerHitted() {
+        return hittedCorner;
     }
 
     public void run() {
@@ -89,10 +88,10 @@ public class Icon extends JPanel implements Runnable {
         int horizontalTouches = 4;
         int verticalTouches = 2;
 
-        while(!interrupted) {
+        while (!interrupted) {
             if (paused) {
                 try {
-                    synchronized(pause_resume_Lock) {
+                    synchronized (pause_resume_Lock) {
                         pause_resume_Lock.wait();
                     }
                 } catch (Exception e) {
@@ -100,7 +99,7 @@ public class Icon extends JPanel implements Runnable {
                 }
             }
 
-            for(int i = 0; i < img.length; i++) {
+            for (int i = 0; i < img.length; i++) {
                 if (x + vx - img[i].getWidth() + img[i].getWidth() < 0 || x + vx + img[i].getWidth() + 12 > weight) {
 
                     vx *= -1;
@@ -135,32 +134,32 @@ public class Icon extends JPanel implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            hitedCorner = false;
+            hittedCorner = false;
         }
 
     }
 
     private void touchCorner(int x, int y) {
         if (x == 0 && y == 0) {
-            this.hitedCorner = true;
+            this.hittedCorner = true;
         }
 
         if (x == parent.getWidth() - img[0].getWidth() - 12 && y == parent.getHeight() - 2 * img[0].getHeight()) {
-            hitedCorner = true;
+            hittedCorner = true;
         }
 
         if (x == 0 && y == parent.getHeight() - 2 * img[0].getHeight()) {
-            hitedCorner = true;
+            hittedCorner = true;
         }
 
         if (x == parent.getWidth() - img[0].getWidth() - 12 && y == 0) {
-            hitedCorner = true;
+            hittedCorner = true;
         }
 
     }
 
     public void paint(Graphics g) {
-        Graphics2D g2D = (Graphics2D)g;
+        Graphics2D g2D = (Graphics2D) g;
         g2D.drawImage(img[imageIndex], x, y, null);
     }
 

@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Handler implements ActionListener {
     private JFrame frame;
     private View v;
-    private boolean opend = false;
+    private int howManyClicked = 0;
     private InfoScreen infoScreen =  new InfoScreen();
 
     Handler(JFrame f, View v) {
@@ -49,6 +49,10 @@ public class Handler implements ActionListener {
 
         } else if (source.equals("Demo")) {
 
+            if (frame.getWidth() > 480 && frame.getHeight() > 640 && howManyClicked == 0){
+                JOptionPane.showMessageDialog(null, "Best performance at resolution 640x480 with speed 5x.","Info",JOptionPane.INFORMATION_MESSAGE);
+            }
+            howManyClicked++;
             v.getIcon().setDemoPosition(240, 240, -v.getAnimationSpeed());
 
         } else if (source.equals("About")) {
