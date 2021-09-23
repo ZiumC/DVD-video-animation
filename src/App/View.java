@@ -31,10 +31,12 @@ public class View extends JPanel {
         icon = new Icon(frame, animationSpeed);
         rangeOfSpeed = new String[5];
 
+        //This forloop is responsible for creating txt for RadioButtons from menu 'Speed'
         for(int i = 0; i < 5; ++i) {
             rangeOfSpeed[i] = i + 1 + "x ";
         }
 
+        //Here is background buttons which colors and txt.
         namesOfColors = new String[]{"Black", "White"};
         colors = new Color[]{Color.black, Color.white};
 
@@ -50,25 +52,26 @@ public class View extends JPanel {
         JMenu options = new JMenu("Options");
         options.setMnemonic('O');
 
-        JMenu file = new JMenu("File");
-        file.setMnemonic('F');
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic('F');
 
         exit = new JMenuItem("Exit");
         exit.setAccelerator(KeyStroke.getKeyStroke("ctrl shift X"));
         exit.setMnemonic('X');
 
-        menuBar.add(file);
+        menuBar.add(fileMenu);
         menuBar.add(options);
 
+        //adding to 'options' different buttons.
         options.add(initializeMenuBG());
         options.add(initializeSpeedMenu());
         options.addSeparator();
         options.add(initializeManipulationMenu());
 
-        file.add(initializeDemoMenu());
-        file.add(initializeInfo());
-        file.addSeparator();
-        file.add(exit);
+        fileMenu.add(initializeDemoMenu());
+        fileMenu.add(initializeInfo());
+        fileMenu.addSeparator();
+        fileMenu.add(exit);
     }
 
     private JMenuItem initializeInfo(){

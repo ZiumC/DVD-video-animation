@@ -12,14 +12,21 @@ public class Controller {
     }
 
     public void initController() {
-        this.view.getStart().addActionListener((e) -> {
-            this.model.writeCache();
-            this.view.getFrame().dispose();
+
+        //This lambda expression is responsible for opening main application in new window.
+        view.getStart().addActionListener((e) -> {
+            model.writeCache();
+            view.getFrame().dispose();
             new Application();
         });
-        this.view.getExit().addActionListener((e) -> {
-            this.view.getFrame().dispose();
+
+
+        //This lambda expression close launcher if button 'exit' was clicked.
+        view.getExit().addActionListener((e) -> {
+            view.getFrame().dispose();
             Thread.currentThread().interrupt();
         });
+
+
     }
 }

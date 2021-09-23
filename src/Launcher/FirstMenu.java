@@ -1,7 +1,6 @@
 package Launcher;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class FirstMenu extends JFrame {
     private String logoInLauncher = "dvdicon.jpg";
@@ -10,21 +9,22 @@ public class FirstMenu extends JFrame {
     private View view;
 
     public FirstMenu() {
-        this.model = new Model(this.cache_fileName);
-        this.view = new View(this.model, this, this.logoInLauncher);
-        this.setTitle("DVD video animation Launcher");
-        this.defOptions(this);
-        this.add(this.view);
-        Controller controller = new Controller(this.model, this.view);
+        model = new Model(cache_fileName);
+        view = new View(model, this, logoInLauncher);
+        setTitle("DVD video animation Launcher");
+        defOptions(this);
+        add(view);
+        Controller controller = new Controller(model, view);
         controller.initController();
     }
 
 
     private void defOptions(JFrame jf) {
-        jf.setDefaultCloseOperation(3);
-        jf.setSize(350, 450);
+        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        jf.setSize(550, 400);
         jf.setVisible(true);
-        this.setLocationRelativeTo(null);
+        jf.setLocationRelativeTo(null);
         jf.setResizable(false);
+
     }
 }

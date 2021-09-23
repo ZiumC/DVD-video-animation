@@ -13,18 +13,20 @@ public class Controller {
     }
 
     public void initializeController() {
+        //if any error occurred to read cache, program will not start.
         if (model.isReadCacheError()) {
             view.getIcon().interrupt();
             Thread.currentThread().interrupt();
             view.getFrame().dispose();
         }
 
-        model.readImages();
-        view.getIcon().setImages(model.getImages());
-        view.getIcon().setArrayOfImageIndexes(model.getArrayOfImageIndexes());
+        model.readImages(); //reading images into array 'BufferedImage'
+        view.getIcon().setImages(model.getImages()); //setting images into private variable 'img' in Icon class.
         model.readSound();
 
-        if (model.isAllProperImagesRead() && model.isProperMusicRead()) {
+
+        //if any error occurred to read images or music, program will not start.
+        if (model.isProperImagesRead() && model.isProperMusicRead()) {
 
             view.getIcon().start();
 
@@ -37,6 +39,7 @@ public class Controller {
 
     }
 
+    //this method is called until button 'exit' is clicked.
     public void initializeMusicPlay() {
 
         if (view.getIcon().isCornerHitted()) {

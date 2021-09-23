@@ -19,7 +19,7 @@ public class Application extends JFrame {
         controller.initializeController();
 
 
-        (new Thread(() -> {
+        new Thread(() -> {
 
             byte sleepTime = 1000/240;
 
@@ -42,7 +42,7 @@ public class Application extends JFrame {
                 Thread.currentThread().interrupt();
             }
 
-        })).start();
+        }).start();
     }
 
     private void defOptions(JFrame jf) {

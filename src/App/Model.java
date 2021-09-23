@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
 public class Model {
     private int height;
     private int wight;
-    private int[] arrayOfImageIndexes;
-    private boolean allProperImagesRead = true;
+    private boolean properImagesRead = true;
     private boolean properMusicRead = true;
     private boolean readCacheError = false;
     private BufferedImage[] arrayOfImages;
@@ -29,6 +28,9 @@ public class Model {
         this.cache_fileName = cache_fileName;
     }
 
+    /*
+    This method is responsible for reading sound into program.
+     */
     public void readSound() {
         try {
             clip = AudioSystem.getClip();
@@ -43,29 +45,28 @@ public class Model {
     }
 
     public void playAudio() {
-
+        //This method 'setFramePosition(0)' is very important because it is responsible for repeating music when every corner is hit by logo icon.
         clip.setFramePosition(0);
         clip.start();
 
     }
 
+    //This method is responsible for reading images. Forloop is necessary to read 5 images into 'arrayOfImages'.
     public void readImages() {
         arrayOfImages = new BufferedImage[5];
-        arrayOfImageIndexes = new int[arrayOfImages.length];
 
         try {
             for (int i = 0; i < arrayOfImages.length; ++i) {
                 String images_fileNames = i + 1 + ".png";
-                arrayOfImageIndexes[i] = i;
                 arrayOfImages[i] = ImageIO.read(Objects.requireNonNull(getClass().getResource(images_fileNames)));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            allProperImagesRead = false;
+            properImagesRead = false;
         }
-
     }
 
+    //This method is very important because it determines resolution of app window with animation.
     public void readCache() {
         String raw_Data = "";
 
@@ -80,25 +81,25 @@ public class Model {
                 }
 
                 sc.close();
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                this.readCacheError = true;
+                readCacheError = true;
             }
 
             String[] data = raw_Data.split(" x ");
 
             try {
-                this.wight = Integer.parseInt(data[0]);
-                this.height = Integer.parseInt(data[1]);
+                wight = Integer.parseInt(data[0]);
+                height = Integer.parseInt(data[1]);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-                this.readCacheError = true;
+                readCacheError = true;
             }
         } else {
             JOptionPane.showMessageDialog(null, "Unable to read cache data.", "ERROR", JOptionPane.ERROR_MESSAGE);
-            this.readCacheError = true;
+            readCacheError = true;
         }
-
     }
 
 
@@ -106,17 +107,14 @@ public class Model {
         return properMusicRead;
     }
 
-    public boolean isAllProperImagesRead() {
-        return allProperImagesRead;
+    public boolean isProperImagesRead() {
+        return properImagesRead;
     }
 
     public BufferedImage[] getImages() {
         return arrayOfImages;
     }
 
-    public int[] getArrayOfImageIndexes() {
-        return arrayOfImageIndexes;
-    }
 
     public int getHeight() {
         return height;

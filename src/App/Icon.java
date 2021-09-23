@@ -20,7 +20,6 @@ public class Icon extends JPanel implements Runnable {
     private BufferedImage[] img;
     private int imageIndex = 0;
     private Thread iconThread;
-    private int[] arrayOfImageIndexes;
     private boolean hittedCorner = false;
     private boolean paused = false;
     private final Object pause_resume_Lock = new Object();
@@ -49,6 +48,7 @@ public class Icon extends JPanel implements Runnable {
         paused = true;
     }
 
+    //this method is responsible for resuming thread which move logo. This operation requires object.
     public void resume() {
 
         synchronized (pause_resume_Lock) {
@@ -58,8 +58,12 @@ public class Icon extends JPanel implements Runnable {
 
     }
 
+    /*
+    this method tells that what direction animation should go.
+    If variable 'direction' is true animation goes into positive direction (right)
+    If variable 'direction' is false animation goes into negative direction (left)
+     */
     private int direction(int speedAnimation) {
-
         boolean direction = Math.random() > 0.5;
         if (direction) {
             return speedAnimation;
@@ -89,6 +93,7 @@ public class Icon extends JPanel implements Runnable {
         int verticalTouches = 2;
 
         while (!interrupted) {
+            //this if statement is responsible for pausing thread responsible for moving logo
             if (paused) {
                 try {
                     synchronized (pause_resume_Lock) {
@@ -99,11 +104,21 @@ public class Icon extends JPanel implements Runnable {
                 }
             }
 
+
             for (int i = 0; i < img.length; i++) {
+            /*
+            This if statements are very important because they are responsible for detecting if logo touched border and change color of logo.
+
+            Change of colors when logo hits horizontal borders is very simple. That works like that:
+            -temporary variable 'horizontalTouches' basically equals 4.
+            -variable 'imageIndex' equals variable 'horizontalTouches' and that temporary variable is increased. When that variable equals img.length, is set to 0.
+
+            Change of colors when logo hits vertical boarders work similar but temporary variable 'verticalTouches' is decreased.
+             */
                 if (x + vx - img[i].getWidth() + img[i].getWidth() < 0 || x + vx + img[i].getWidth() + 12 > weight) {
 
                     vx *= -1;
-                    imageIndex = arrayOfImageIndexes[horizontalTouches++];
+                    imageIndex = horizontalTouches++;
 
                     if (horizontalTouches == img.length) {
                         horizontalTouches = 0;
@@ -118,14 +133,17 @@ public class Icon extends JPanel implements Runnable {
                         verticalTouches = img.length - 1;
                     }
 
-                    imageIndex = arrayOfImageIndexes[verticalTouches--];
+                    imageIndex = verticalTouches--;
                 }
             }
 
+            //this method detects if logo hits the corner.
             touchCorner(x, y);
             x += vx;
             y += vy;
 
+
+            //This try catch section is responsible for setting animation speed.
             try {
 
                 int basicSpeedThread = 25;
@@ -140,29 +158,40 @@ public class Icon extends JPanel implements Runnable {
     }
 
     private void touchCorner(int x, int y) {
+        //Left upper corner
         if (x == 0 && y == 0) {
             this.hittedCorner = true;
         }
-
+        //Right down corner
         if (x == parent.getWidth() - img[0].getWidth() - 12 && y == parent.getHeight() - 2 * img[0].getHeight()) {
             hittedCorner = true;
         }
-
+        //Left down corner
         if (x == 0 && y == parent.getHeight() - 2 * img[0].getHeight()) {
             hittedCorner = true;
         }
-
+        //Right upper corner
         if (x == parent.getWidth() - img[0].getWidth() - 12 && y == 0) {
             hittedCorner = true;
         }
 
     }
 
+
     public void paint(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
+        /*
+        this is responsible for displaying images.
+        Array img contains 5 images, only variable imageIndex is dynamically changed when logo touches any border.
+         */
         g2D.drawImage(img[imageIndex], x, y, null);
     }
 
+    /*
+     This method set image logo at that position to show as well as possible one feature: playing music when logo touch every corner.
+     Many touches in one minute.
+     Best performance in resolution 640x480 at speed 5x.
+    */
     public void setDemoPosition(int x, int y, int direction) {
         this.x = x;
         this.y = y;
@@ -178,7 +207,4 @@ public class Icon extends JPanel implements Runnable {
         this.img = img;
     }
 
-    public void setArrayOfImageIndexes(int[] imagesIndex) {
-        arrayOfImageIndexes = imagesIndex;
-    }
 }
