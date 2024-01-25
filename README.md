@@ -4,7 +4,8 @@ This application has been written in Java 1.8 but it is compatibille with most o
 # Instalation
 1. To run this application just dowloand zip file at <a href="https://github.com/ZiumC/DVD-video-animation/releases/tag/stable" rel="nofollow">this link</a>.
 2. Extract files, then open main folder ```DVD-video-animation-stable``` in InteliJ.
-3. Define Java SDK for project and run it.
+3. Define Java SDK for project.
+4. Run class ```App_DVD_video_animation```.
 
 # Features
 1. You can select preffered resolution in launcher.
